@@ -1,15 +1,15 @@
 """Prompt templates for SOP analysis and call intelligence extraction."""
 
-ANALYSIS_PROMPT = """You are an expert call center compliance analyst. Analyze the following transcript from a {language} call center recording and extract structured intelligence.
+AUDIO_ANALYSIS_PROMPT = """You are an expert call center compliance analyst. Analyze the attached {language} audio recording and extract structured intelligence.
 
-TRANSCRIPT:
-\"\"\"
-{transcript}
-\"\"\"
+{language} Hint: The conversation may mix {language} with English (code-switching). Write the transcript in English script.
 
 ANALYSIS REQUIREMENTS:
 
-1. SUMMARY
+1. TRANSCRIPT
+   Provide a HIGHLY ABRIDGED, summarized transcript of the call (max 5-6 lines). Only include the most critical dialogue (the greeting, the main problem/solution, any payment terms, and the closing). Omit all fluff.
+
+2. SUMMARY
    Write a concise 2-3 sentence summary of the conversation. Include: who called whom, the main topic, key outcomes, and any amounts discussed.
 
 2. SOP VALIDATION
@@ -57,6 +57,7 @@ ANALYSIS REQUIREMENTS:
 
 RESPOND WITH ONLY THE FOLLOWING JSON — no markdown, no code fences, no extra text:
 {{
+  "transcript": "Agent: Hello...\\nCustomer: Yes...",
   "summary": "...",
   "sop_validation": {{
     "greeting": true/false,

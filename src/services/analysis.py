@@ -2,13 +2,14 @@
 
 import json
 import re
+import base64
 import logging
 from typing import Dict, Any
 
 import google.generativeai as genai
 
 from src.config import settings
-from src.prompts.sop_analysis import ANALYSIS_PROMPT
+from src.prompts.sop_analysis import AUDIO_ANALYSIS_PROMPT
 
 logger = logging.getLogger(__name__)
 
@@ -16,23 +17,31 @@ logger = logging.getLogger(__name__)
 genai.configure(api_key=settings.GEMINI_API_KEY)
 
 
-def analyze_transcript(transcript: str, language: str) -> Dict[str, Any]:
-    """Analyze a call transcript for SOP compliance, analytics, and keywords.
+def analyze_audio(audio_base64: str, language: str) -> Dict[str, Any]:
+    """Analyze call audio for transcripts, SOP compliance, analytics, and keywords.
 
     Args:
-        transcript: The full call transcript text.
+        audio_base64: Base64-encoded MP3 audio.
         language: 'Tamil' or 'Hindi'.
 
     Returns:
-        Dictionary with keys: summary, sop_validation, analytics, keywords.
+        Dictionary with keys: transcript, summary, sop_validation, analytics, keywords.
 
     Raises:
+        ValueError: If audio decoding fails.
         RuntimeError: If analysis fails after retries.
     """
-    prompt = ANALYSIS_PROMPT.format(
-        language=language,
-        transcript=transcript,
-    )
+    try:
+        audio_bytes = base64.b64decode(audio_base64)
+    except Exception as e:
+        raise ValueError(f"Failed to decode Base64 audio: {e}")
+
+    audio_data = {
+        "mime_type": "audio/mpeg",
+        "data": audio_bytes
+    }
+
+    prompt = AUDIO_ANALYSIS_PROMPT.format(language=language)
 
     model = genai.GenerativeModel(settings.GEMINI_MODEL)
 
@@ -41,10 +50,10 @@ def analyze_transcript(transcript: str, language: str) -> Dict[str, Any]:
     for attempt in range(3):
         try:
             response = model.generate_content(
-                prompt,
+                [audio_data, prompt],
                 generation_config=genai.types.GenerationConfig(
-                    temperature=0.2,
-                    max_output_tokens=4096,
+                    temperature=0.1,
+                    max_output_tokens=8192,
                 ),
             )
 
@@ -100,6 +109,7 @@ def _validate_and_fix(data: Dict[str, Any]) -> Dict[str, Any]:
     Recalculates complianceScore and adherenceStatus for consistency.
     """
     # Ensure top-level keys exist
+    data.setdefault("transcript", "Transcript unavailable.")
     data.setdefault("summary", "Call summary unavailable.")
     data.setdefault("sop_validation", {})
     data.setdefault("analytics", {})

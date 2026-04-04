@@ -36,32 +36,12 @@ def transcribe_audio(audio_base64: str, language: str) -> str:
     except Exception as e:
         raise ValueError(f"Failed to decode Base64 audio: {e}")
 
-    # 2. Write to temp file
-    os.makedirs(settings.TEMP_DIR, exist_ok=True)
-    temp_path = os.path.join(settings.TEMP_DIR, f"audio_{int(time.time() * 1000)}.mp3")
+    logger.info(f"Decoded audio ({len(audio_bytes)} bytes)")
 
-    try:
-        with open(temp_path, "wb") as f:
-            f.write(audio_bytes)
+    # 2. Build language-aware transcription prompt
+    lang_hint = _get_language_hint(language)
 
-        logger.info(f"Audio saved to {temp_path} ({len(audio_bytes)} bytes)")
-
-        # 3. Upload to Gemini
-        audio_file = genai.upload_file(temp_path, mime_type="audio/mpeg")
-        logger.info(f"Uploaded audio file: {audio_file.name}")
-
-        # Wait for file to be processed
-        while audio_file.state.name == "PROCESSING":
-            time.sleep(1)
-            audio_file = genai.get_file(audio_file.name)
-
-        if audio_file.state.name == "FAILED":
-            raise RuntimeError(f"Gemini file processing failed: {audio_file.state.name}")
-
-        # 4. Build language-aware transcription prompt
-        lang_hint = _get_language_hint(language)
-
-        prompt = f"""You are a professional call center transcriber. Transcribe the following audio recording VERBATIM.
+    prompt = f"""You are a professional call center transcriber. Transcribe the following audio recording VERBATIM.
 
 LANGUAGE: {language} ({lang_hint})
 The audio is a call center recording. The conversation may mix {language} with English (code-switching is common).
@@ -78,10 +58,17 @@ RULES:
 
 Output ONLY the transcript. No preamble, no summary, no commentary."""
 
-        # 5. Call Gemini
-        model = genai.GenerativeModel(settings.GEMINI_MODEL)
+    # 3. Call Gemini directly with inline audio data to skip upload/polling
+    audio_data = {
+        "mime_type": "audio/mpeg",
+        "data": audio_bytes
+    }
+    
+    model = genai.GenerativeModel(settings.GEMINI_MODEL)
+    
+    try:
         response = model.generate_content(
-            [audio_file, prompt],
+            [audio_data, prompt],
             generation_config=genai.types.GenerationConfig(
                 temperature=0.1,
                 max_output_tokens=8192,
@@ -90,19 +77,11 @@ Output ONLY the transcript. No preamble, no summary, no commentary."""
 
         transcript = response.text.strip()
         logger.info(f"Transcription complete: {len(transcript)} characters")
-
-        # 6. Clean up uploaded file
-        try:
-            genai.delete_file(audio_file.name)
-        except Exception:
-            pass
-
         return transcript
 
-    finally:
-        # Clean up temp file
-        if os.path.exists(temp_path):
-            os.remove(temp_path)
+    except Exception as e:
+        logger.error(f"Gemini generation failed: {e}")
+        raise RuntimeError(f"Gemini API call failed: {e}")
 
 
 def _get_language_hint(language: str) -> str:
