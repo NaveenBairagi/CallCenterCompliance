@@ -128,14 +128,32 @@ curl -X POST https://your-domain.com/api/call-analytics \
 
 ## Architecture
 
-```
-Audio (Base64 MP3) → Decode → Inline Data
-                                    ↓
-                 Gemini 2.5 Flash (Multimodal Prompt)
-                                    ↓
-       [Transcript + Summary + SOP + Analytics + Keywords]
-                                    ↓
-                        Structured JSON Response
+```mermaid
+graph TD
+    classDef input fill:#2b3440,stroke:#3b82f6,stroke-width:2px,color:#fff
+    classDef backend fill:#1e40af,stroke:#60a5fa,stroke-width:2px,color:#fff
+    classDef ai fill:#6b21a8,stroke:#c084fc,stroke-width:2px,color:#fff
+    classDef process fill:#065f46,stroke:#34d399,stroke-width:2px,color:#fff
+    classDef output fill:#b45309,stroke:#fbbf24,stroke-width:2px,color:#fff
+
+    A[🎙️ Base64 Audio Request]:::input --> B[⚡ FastAPI Application]:::backend
+    
+    subgraph Core Processing Pipeline
+        B --> |Decodes Audio to Inline Data| C[🧠 Gemini 2.5 Flash]:::ai
+        C --> |Single Multimodal Prompt| D[⚙️ Pydantic Validation]:::process
+    end
+    
+    subgraph Data Extraction & Analytics
+        D --> E[📝 Transcript & Summary]:::output
+        D --> F[✅ SOP Compliance Metrics]:::output
+        D --> G[📊 Intent & Payment Analytics]:::output
+        D --> H[🔍 Keyword Extraction]:::output
+    end
+    
+    E --> Z[JSON Response]:::input
+    F --> Z
+    G --> Z
+    H --> Z
 ```
 
 ## Approach

@@ -5,7 +5,7 @@ import json
 import time
 import httpx
 
-API_URL = "http://localhost:8000/api/call-analytics"
+API_URL = "https://call-center-compliance-qhmu.onrender.com/api/call-analytics"
 API_KEY = "sk_track3_987654321"
 SAMPLE_AUDIO_URL = "https://recordings.exotel.com/exotelrecordings/guvi64/5780094ea05a75c867120809da9a199f.mp3"
 
