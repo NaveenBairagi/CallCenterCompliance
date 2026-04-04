@@ -7,10 +7,10 @@ AUDIO_ANALYSIS_PROMPT = """You are an expert call center compliance analyst. Ana
 ANALYSIS REQUIREMENTS:
 
 1. TRANSCRIPT
-   Provide a HIGHLY ABRIDGED, summarized transcript of the call (max 5-6 lines). Only include the most critical dialogue (the greeting, the main problem/solution, any payment terms, and the closing). Omit all fluff.
+   Provide an ULTRA-SHORT summarized transcript of the call (max 2 sentences). Do not write dialogue. Just state the core issue and outcome to save time.
 
 2. SUMMARY
-   Write a concise 2-3 sentence summary of the conversation. Include: who called whom, the main topic, key outcomes, and any amounts discussed.
+   Write an ULTRA-SHORT 1-sentence summary of the conversation. Include: who called whom, the main topic, and outcome.
 
 2. SOP VALIDATION
    Evaluate whether the agent followed the standard call center script. Check each stage:

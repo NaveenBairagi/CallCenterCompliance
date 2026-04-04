@@ -66,7 +66,7 @@ async def health_check():
 
 
 @app.post("/api/call-analytics", response_model=CallAnalyticsResponse)
-async def call_analytics(
+def call_analytics(
     request: CallAnalyticsRequest,
     api_key: str = Depends(verify_api_key),
 ):
@@ -124,7 +124,7 @@ async def call_analytics(
 
 
 @app.get("/api/transcripts/search")
-async def search_transcripts(
+def search_transcripts(
     query: str,
     top_k: int = 5,
     api_key: str = Depends(verify_api_key),
