@@ -1,0 +1,379 @@
+﻿Track 3: Call Center Compliance 
+1.You must design API that:
+* Accepts one MP3 audio file at a time via Base64 encoding.
+* Performs multi-stage AI analysis (Transcription → NLP Analysis → Metric Extraction).
+* Returns structured JSON containing compliance scores and categorized business intelligence.
+* Is protected using a mandatory API Key in the request header.
+
+
+2. API Authentication
+Requests without a valid API key must be rejected with a 401 Unauthorized status.
+* Header Format: x-api-key: YOUR_SECRET_API_KEY
+3. API Request (cURL Example)
+Endpoint Example: POST https://your-domain.com/api/call-analytics
+cURL Request:
+
+curl -X POST https://your-domain.com/api/call-analytics \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: sk_track3_987654321" \
+  -d '{
+    "language": "Tamil",
+    "audioFormat": "mp3",
+    "audioBase64": "SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU2LjM2LjEwMAAAAAAA..."
+  }'
+
+
+
+
+4. Request Body Fields
+Field
+	Description
+	language
+	Tamil (Tanglish) / Hindi (Hinglish)
+	audioFormat
+	Always mp3
+	audioBase64
+	Base64-encoded MP3 audio of the call recording
+	
+
+5. API Response Body (Success)
+The response must provide a complete breakdown of the call's metadata and compliance metrics.
+Example Response:
+JSON
+{
+  "status": "success",
+  "language": "Tamil",
+  "transcript": "Vanakkam, ungaloda outstanding EMI amount 5000 iruku. Can you pay today?",
+  "summary": "Agent discussed outstanding EMI of ₹5000; Customer requested partial payment due to budget.",
+  "sop_validation": {
+    "greeting": true,
+    "identification": false,
+    "problemStatement": true,
+    "solutionOffering": true,
+    "closing": true,
+    "complianceScore": 1.0,
+    "adherenceStatus": "NOT_FOLLOWED",
+    "explanation": "The agent did not identify the customer. All other stages were present."
+  },
+  "analytics": {
+    "paymentPreference": "PARTIAL_PAYMENT",
+    "rejectionReason": "BUDGET_CONSTRAINTS",
+    "sentiment": "Neutral"
+  },
+"keywords": [
+                "Mechanical CAD",
+                "Catia",
+                "AutoCAD",
+                "SolidWorks",
+                "Guvi Institution",
+                "EMI options",
+                "Upskilling",
+                "Portfolio",
+                "Placement Support",
+                "Course Duration"
+              ]
+
+
+}
+6. Response Field Explanation
+Field
+	Meaning
+	status
+	success or error
+	transcript
+	The full Speech-to-Text output (Hinglish/Tanglish)
+	summary
+	Concise AI-powered summary of the conversation
+	sop_validation
+	Object containing the greeting, identification, problemStatement, solutionOffering, closing, complianceScore (0.0 to 1.0) and dherenceStatus
+	analytics
+	Correct categorization of payment preference (EMI, FULL_PAYMENT, PARTIAL_PAYMENT, DOWN_PAYMENT) Correct identification of the reason if payment was not completed
+	Keywords
+	Detects the main keywords from the transcript and summary
+	
+
+7. Classification & Validation Rules
+* SOP Adherence: Must be measured against a standard script (Greeting → ID → Problem Statement → Solution → Closing).
+* Payment Categorization: Must strictly map to one of: EMI, FULL_PAYMENT, PARTIAL_PAYMENT, or DOWN_PAYMENT.
+* Rejection Analysis: If a sale is not closed, the AI must identify the reason (e.g., HIGH_INTEREST, BUDGET_CONSTRAINTS, ALREADY_PAID).
+8. Evaluation Criteria
+Participants will be evaluated on:
+1. Transcription Accuracy: Quality of STT for Hinglish and Tanglish.
+2. SOP Logic: Accuracy of the compliance score based on the transcript.
+3. Data Categorization: Correctness of payment and rejection classification.
+4. Vector Storage: Evidence that transcripts are indexed for semantic search.
+5. API Performance: Latency of the AI pipeline and response reliability.
+________________
+
+
+9. Rules & Constraints
+* ❌ No Hard-coding: Results must be generated from the provided Base64 audio.
+* ❌ Modified Audio: The Base64 string must be processed as-is.
+
+
+10. Evaluation & Scoring Criteria
+The evaluation will be performed by sending 10 predefined audio recordings to the participant’s API endpoint.
+Each audio recording represents a test case that validates different aspects of the AI analysis pipeline such as transcription accuracy, SOP adherence detection, and business classification.
+Each test case carries 10 points, for a total possible score of 100 points.
+The evaluation is fully based on the API response structure and content correctness.
+________________
+
+
+Test Case Scoring Structure
+For every test case, the response returned from the API will be evaluated on the following components.
+Component
+	Description
+	Points
+	API Availability
+	Endpoint responds successfully with HTTP 200 and valid JSON
+	20
+	Transcript Summary
+	Speech-to-text output correctly captures the main conversation content
+	30
+	SOP Validation
+	Correct detection of whether the agent followed the SOP steps
+	30
+	Analytics
+	Correct categorization of payment preference (EMI, FULL_PAYMENT, PARTIAL_PAYMENT, DOWN_PAYMENT) Correct identification of the reason if payment was not completed
+	10
+	Keywords
+	Detects the main keywords from the transcript and summary
+	10
+	Total per test case:
+100 Points
+Total across 10 test cases:
+Converted to 90 points , 10 points for code quality and total 100 points 
+________________
+
+
+SOP Validation Scoring Logic
+Participants must analyze the transcript and determine if the call followed the required call center script.
+The expected script structure:
+Greeting → Identification → Problem Statement → Solution Discussion → Closing
+The API response must include:
+"sop_validation": {
+"greeting": true,
+ "identification": false,
+ "problemStatement": true,
+ "solutionOffering": true,
+ "closing": true,
+ "complianceScore": 0.0 - 1.0,
+ "adherenceStatus": "FOLLOWED or NOT_FOLLOWED",
+ "explanation": "Short explanation"
+}
+Evaluation criteria:
+Condition
+	Result
+	Greeting and identification present
+	Partial compliance
+	Problem explained and solution offered
+	Higher compliance score
+	Proper closing statement present
+	Full compliance
+	Missing multiple stages
+	Low compliance
+	________________
+
+
+Payment Classification Rules
+The API must classify the payment intent from the conversation.
+Allowed categories:
+EMI
+FULL_PAYMENT
+PARTIAL_PAYMENT
+DOWN_PAYMENT
+Example:
+Customer says:
+I can pay 2000 today and the rest next month
+Expected classification:
+PARTIAL_PAYMENT
+________________
+
+
+Rejection Reason Identification
+If the payment is not completed, the system must identify the most relevant reason.
+Allowed categories:
+HIGH_INTEREST
+BUDGET_CONSTRAINTS
+ALREADY_PAID
+NOT_INTERESTED
+NONE
+Example:
+Customer says:
+I don't have enough money this month
+Expected output:
+BUDGET_CONSTRAINTS
+________________
+
+
+API Response Format Requirement
+Every successful API response must follow this structure:
+{
+ "status": "success",
+ "language": "Tamil",
+ "transcript": "...",
+ "summary": "...",
+"sop_validation": {
+    "greeting": true,
+    "identification": false,
+    "problemStatement": true,
+    "solutionOffering": true,
+    "closing": true,
+    "complianceScore": 0.0,
+    "adherenceStatus": "NOT_FOLLOWED",
+    "explanation": "The agent did not identify the customer. All other stages were present."
+  },
+
+
+ "analytics": {
+   "paymentPreference": "PARTIAL_PAYMENT",
+   "rejectionReason": "BUDGET_CONSTRAINTS",
+   "sentiment": "Neutral"
+ }
+}
+If the response structure deviates from this format, the test case will be marked as failed.
+________________
+
+
+Failure Conditions
+A test case will receive 0 points if any of the following occurs:
+* API does not respond
+
+* Response is not valid JSON
+
+* Required fields are missing
+
+* Classification values do not match allowed categories
+
+* Transcript is empty or missing
+
+________________
+
+
+Summary
+Evaluation will be conducted using 10 predefined audio test cases.
+Each test case = 10 points
+Total = 90 points
+The system will verify:
+   * API functionality
+
+   * Speech transcription accuracy
+
+   * SOP adherence detection
+
+   * Payment intent classification
+
+   * Rejection reason identification
+
+The final score will be calculated based on the correctness of the API responses across all test cases.
+
+
+Sample response:
+{
+ "status": "success",
+ "language": "Tamil",
+  "transcript": "Agent: Hello?\nCustomer: Yeah, hello. Is this Manikandan?\nAgent: Yes, Manikandan speaking, tell me.\nAgent: I am calling from Guvi Institution.\nCustomer: Ah, tell me.\nAgent: Actually, you gave an inquiry for a course, right?\nCustomer: Yes, actually I was working in digital marketing for the last 5 years. Plus, there is a one-year career gap now, so I'm looking for a career change. I heard that Data Science has a very good scope. While checking, your institute was among the top ones, so I wanted to check.\nAgent: Definitely. Our office is located within IIT Madras. We have been established for almost 11 years. Recently, HCL company merged with Guvi. So, in terms of certification and recognition, Guvi is the best in India, okay? But what matters is that you give your 100% effort. If you give your 100% effort, we will take care of the rest. You don't have to worry about the process. Now, Manikandan, I will send you a WhatsApp message. First, send me your current resume.\nCustomer: Current resume? Yes, I have it, but there is a career gap of 9 months for personal reasons.\nAgent: No problem, I'm asking for a personal understanding. Send whatever resume you have. I'll check it and let you know what skills are pending and what needs to be filled. Only if you send the resume can we determine how to proceed with the training. Industry experts with 20 years of experience will train you. You will get many projects. You will get 100% satisfaction. But we need to give our 100% effort. We provide proper training, portfolio creation, mock interviews, and main interviews. Where are you working currently?\nCustomer: I resigned... it's been about 9 months. I took a personal break.\nAgent: Total years of experience?\nCustomer: 10 plus years.\nAgent: That's not an issue. Are you under 50 years of age? \nCustomer: I am 34.\nAgent: Not a problem at all. People even at 45 plus are getting placed. Even a 15-year gap is not an issue if you give your effort. I will WhatsApp you from 9960664486. Send the resume, and I will connect with you after the afternoon.\nCustomer: One more thing, what is the course fee?\nAgent: The total course fee is 73,000. You can start by paying 1,000, and there are EMI options for up to 24 months. The course will be completed in 4-5 months and you can attend interviews. Share the resume first, we will see how we can support you and then discuss further.\nCustomer: Okay, sure.\nAgent: Okay fine, thank you so much.",
+  "summary": "An agent from Guvi Institution followed up with Manikandan regarding his interest in a Data Science course. Manikandan, who has over 10 years of experience in digital marketing and a recent career gap, is looking for a career transition. The agent highlighted Guvi's affiliation with IIT Madras and HCL, explained the placement support process, and mentioned the course fee of ₹73,000 with EMI options. The call concluded with the customer agreeing to share his resume via WhatsApp for further evaluation.",
+  "sop_validation": {
+    "greeting": true,
+    "identification": false,
+    "problemStatement": true,
+    "solutionOffering": true,
+    "closing": true,
+    "complianceScore": 1.0,
+    "adherenceStatus": "NOT_FOLLOWED",
+    "explanation": "The agent did not identify the customer. All other stages were present."
+  },
+
+
+  "analytics": {
+    "paymentPreference": "EMI",
+    "rejectionReason": "NONE",
+    "sentiment": "Positive"
+  },
+"keywords": [
+                "Mechanical CAD",
+                "Catia",
+                "AutoCAD",
+                "SolidWorks",
+                "Guvi Institution",
+                "EMI options",
+                "Upskilling",
+                "Portfolio",
+                "Placement Support",
+                "Course Duration"
+              ]
+
+
+}
+
+
+Evaluation Rubric
+1. API Functionality & Accuracy — 90 Points
+      * The API will be tested using 10 audio files, each representing one test case worth 100 points.
+      * Each API response will be evaluated based on the following components:
+
+
+Response Structure — 20 pts
+      * The response must include all required fields: transcript or summary, language, sop_validation object, analytics object, and a non-empty keywords array.
+
+
+Transcript & Summary — 30 pts
+      * The API should generate a clear, concise, and accurate transcript or summary that preserves the core meaning, key facts, and correct detected language.
+
+
+SOP Validation — 30 pts
+      * The API must evaluate five SOP steps: greeting, identification, problemStatement, solutionOffering, and closing.
+      * Correct boolean value: 4 pts each.
+      * Incorrect but present: 2 pts (grace).
+      * Missing field: 0 pts.
+      * complianceScore within ±0.1 of expected: 5 pts.
+      * adherenceStatus exact match: 5 pts.
+
+
+Analytics — 10 pts
+      * paymentPreference extracted from valid enums: 4 pts.
+      * rejectionReason extracted with contextual accuracy: 3 pts.
+      * sentiment correctly classified as positive, negative, or neutral: 3 pts.
+
+
+Keywords — 10 pts
+      * Returned keywords must be present in or directly traceable to the transcript or summary.
+      * With 10 test cases, the maximum raw score is 1000.
+      * Final Score Formula:
+Final Score = (Total Score from 10 Tests / 1000) × 90
+________________
+
+
+GitHub Repository Code Quality — 10 Points
+      * Code structure and readability
+      * Features & Functionality
+      * Technical Implementation
+GitHub Repository Requirements
+your-repo/
+├── README.md                 # Setup and usage instructions
+├── src/                      # Source code
+│   ├── main.py         
+├── requirements.txt          # Python dependencies
+├── .env.example             # Environment variables template
+
+ Minimum README Content
+# Call Center Compliance API
+
+
+## Description
+Brief description of your approach and strategy
+
+
+## Tech Stack
+- Language/Framework
+- Key libraries
+- LLM/AI models used (if any)
+
+
+## Setup Instructions
+1. Clone the repository
+2. Install dependencies
+3. Set environment variables
+4. Run the application## Approach
+

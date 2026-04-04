@@ -1,0 +1,35 @@
+{
+  "status": "success",
+  "language": "Tamil",
+  "transcript": "Customer: Hello\nAgent: Hello\nCustomer: Ah, sollum yaaru?\nAgent: Kanchana payan nu pesureengala?\nCustomer: Aama, neenga?\nAgent: Kanchana Google-la irundhu call panirukken Kanchana.\nCustomer: Enga irundhu neenga sir?\nAgent: Google IIT Madras Research Park-la irundhu pesuren.\nCustomer: Hmm, enna sollunga?\nAgent: Ah, neenga data science course-ku enquiry panirukeengala Google-la?\nCustomer: Aama, thambi enna...\nAgent: Yeah, adhu regarding-na actual-la call panirukken. Unga enquiry receive aayirukku.\nCustomer: Hmm, naan veetla consult panitu appuram call panitu solren sir.\nAgent: Illa, enna reason-kaga enquiry panirukeenga actual-la?\nCustomer: Adhu web design-kaaga... illai, web designing-kaaga.\nAgent: Illa, enna engalukku adhu confusion-a irukku. Neenga web designing-nu solreenga, aana vandhirukradhu data science course-ku enquiry.\nCustomer: Oh, theriyama paniten.\nCustomer: Illai, illai, rendu side-ume paathutu irukken. Coding adhu illama irukkum nu sonnanga.\nAgent: Aama, designing-layum coding irukkadhu, data science-layum coding ungalukku varadhu.\nCustomer: Hmm, adhanaala dhaan, sari, konjam apply panitu...\nAgent: But, aana, basically, inga naanga total program fee structure solren. First of all, financially ungalukku adhu okay-va nu paaru.\nCustomer: Hmm, sollunga.\nAgent: Freshers-a potoda, salary-la varradhu total package evlo nu paatheenga na, average-a salary package candidates, freshers-a irundhu nammalta vandhu 6 LPA-la irundhu 7 LPA-ku. Seri-ngala? Like 50 to 54,000 per month basis-la place panrom. Total program fee structure will be around 73,800 on a whole. Okay-ngala? Like EMI availability-ngradhu irukkum. Like 6 months-la irundhu 24 months varaikum neenga tenure-a eduthukalam. Course 5 months dhaan. Seri-ngala? But at the same time, ungalukku financially do you think it will be comfortable for you? Or illai, idhu budget thaangina irukku appadi-nu feel panreengala? What is your mindset?\nCustomer: Naan veetla consult panitu ungalukku naan call panitu solren sir. Web designing-na data analytics-ku adikradha nu kekkaren.\nAgent: Engalukku rendu-me same piece of cake dhaan. Seri-ngala? Naan enna panren na, details-a ellam ungalukku anuppuren. Full-a go through pannunga. Pannitu, let me know. But before that, ungaloda current profile actual-la enna ma? Enna team mudichirukeenga? Graduate looking for a career mattum irukku. Inga padikkaravanga 85% non-IT-la irundhu IT-ku change aaguravanga dhaan. So, neenga actual-la what is your current profile? Illai, ippodhukku just work-a irukkeengala?\nCustomer: Illa, work naan 4 years-a town panchayat-la computer operator-a irundhen. System operator-a irundhen sir.\nAgent: Okay, hmm, non-IT-la irundhu.\nCustomer: Aama, non-IT.\nAgent: Okay, okay. So, ippo vandhu like you want to enter inside IT, illaiya?\nCustomer: Aama, aama, yes.\nAgent: Okay, all right. So, idhu vandhu, namma institution-ume like Google-oda education partner, owned by HCL and backed by IIT Research Park. Okay-ngala? So, globally recognized certification dhaan ungalukku vandhu serum. You will be certified globally-na edhula na, Google, HCL and as well as IIT M Research Park-la irundhu ungalukku certification pannuvanga. Okay-ngala?\nCustomer: Okay, sir.\nAgent: So, idha thaandi placement ungalukku irukkum. Okay? 399 registration, remaining irukkardhu neenga EMI-a convert pannalam, you can change it over.\nCustomer: Placement neengale vaangi kudukreengala? So, work namma epdi perform panrom nu paathu...\nAgent: Aama, adha dhaan naan sonnen. Ippo ungalukku average-a candidates-a naanga place panitu irukkardhu evlo-ku nu paatheenga na, 6 LPA to 7 LPA, 50 to 54,000 per month salary basis-la. Adhu ungalukku okay-va nu kekkaren. Because, silar enna sollvanga na, kadasi mudichathukku appuram vandhu, I want to get placed for 1 lakh, 1.5 lakhs. Fresher-a irukkavangala avlo-ku place panna mudiyadhu. Non-IT-la 10 years experience irundhalume, avanga IT-kulla nulaiyum bodhu, it is considered as a fresher only. Andha hiring partner, andha IT company-ku, you are a fresher dhaan. Okay-ngala? Because IT-na you have to know either develop in coding irukkanum, illai designer irukkanum, illai technical-a irukkanum. And data science-na ippo data analyst, analyst-a irundhirukkanum. Illa adhu related-a handle panirukkanum, illai DevOps engineer-a irundhirukkanum. Edhaavadhu onnu neenga irundhirundha, then you can tell that an experience candidate-a irundhu, appuram neenga IT-ku. Ippo neenga totally-a change panreenga, correct-ngala?\nCustomer: Aama, sir.\nAgent: So, andha oru reason-naala dhaan, Kanchana, naanga vandhu like starting-laye kekkaren. Ungalukku indha salary package okay-ngala? Course mudichathukku appurama, placement-um naanga inga side-la ungalukku pannum bodhu, average-a like naanga inga evlo panitu irukkom-ngradha naanga munnadiye solrom. Okay-ngala?\nCustomer: Okay, sir. Veetla parents-ta consult panitu unga...\nAgent: All right, yeah.\nCustomer: Okay, sir.\nAgent: Okay, okay. Idhe number-la WhatsApp irukku illaiya?\nCustomer: Ah, irukku, sir.\nAgent: Idhula details-a naanga anuppurom. Adhe oru dharava go through pannippa. Okay?\nCustomer: Seri, okay.\nAgent: Okay?\nCustomer: Thank you, sir.\nAgent: Thank you, thank you, thank you.\nCustomer: Okay, sir.\nAgent: Okay.",
+  "summary": "An agent from Google IIT Madras Research Park called the customer, Kanchana, regarding her enquiry for a data science course. The agent explained the course details, including a program fee of 73,800 with EMI options, and potential salary packages of 6-7 LPA after placement. The customer, currently a computer operator in a non-IT role, expressed interest but stated she needed to consult her family before committing, and the agent agreed to send details via WhatsApp.",
+  "sop_validation": {
+    "greeting": true,
+    "identification": true,
+    "problemStatement": true,
+    "solutionOffering": true,
+    "closing": true,
+    "complianceScore": 1.0,
+    "adherenceStatus": "FOLLOWED",
+    "explanation": "The agent followed all stages of the SOP, including a proper greeting, clear self-identification and customer verification, stating the purpose of the call, offering solutions with detailed information, and closing the call appropriately."
+  },
+  "analytics": {
+    "paymentPreference": "EMI",
+    "rejectionReason": "NONE",
+    "sentiment": "Positive"
+  },
+  "keywords": [
+    "Data science course",
+    "Google",
+    "IIT Madras Research Park",
+    "Program fee",
+    "EMI availability",
+    "Placement",
+    "Salary package",
+    "Non-IT",
+    "IT",
+    "Certification",
+    "Web designing",
+    "Computer operator"
+  ]
+}
